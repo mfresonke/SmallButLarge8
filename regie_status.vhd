@@ -5,10 +5,9 @@ use work.small8_lib.all;
 entity regie_status is
   port (
     clk, rst    : in  std_logic;
-    C, V, S, Z   : in  std_logic;
-    C_en, V_en, S_en, Z_en : in std_logic;
-    C_set, C_rst : in std_logic;
-    status : out STATUS_HOLDER;
+    status_in   : in  status;
+    enables : in status_controls;
+    status_out : out status;
 end;
 
 
@@ -17,12 +16,30 @@ begin
   process(clk, rst)
   begin
     if rst = '1' then
-      status <= (others => '0');
+      status_out <= ('0','0','0','0');
     elsif rising_edge(clk) then
       -- Actual code goes here...
-      if (load = '1') then
-        output <= input;
+
+      if (enables.C_clr = '1') then
+        status_out.C <= '0';
+      elsif (enables.C_set = '1') then
+        status_out.C <= '1';
+      elsif (enables.C_en = '1') then
+        status_out.C <= status_in.C;
       end if;
+
+      if (enables.V_en = '1') then
+        status_out.V <= status_in.V;
+      end if;
+
+      if (enables.S_en = '1') then
+        status_out.S <= status_in.S;
+      end if;
+
+      if (enables.Z_en = '1') then
+        status_out.Z <= status_in.Z;
+      end if;
+
       -- Actual code ends here...
     end if;
   end process;

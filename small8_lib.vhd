@@ -28,11 +28,16 @@ type ALU_INSTRUCTION is (
   RR
 );
 
-type STATUS_HOLDER is record
+type status is record
   C   : std_logic;
   V   : std_logic;
   S   : std_logic;
   Z   : std_logic;
+end record;
+
+type status_controls is record
+  C_en, V_en, S_en, Z_en : std_logic;
+  C_set, C_clr : std_logic;
 end record;
 
 type SELECTION_BUS_EXTERNAL is (
@@ -42,6 +47,8 @@ type SELECTION_BUS_EXTERNAL is (
   S_BUS_INTERNAL
 );
 
+-- Internal Bus
+
 type SELECTION_BUS_INTERNAL is (
   S_A,
   S_D,
@@ -50,6 +57,11 @@ type SELECTION_BUS_INTERNAL is (
   S_PC_L,
   S_PC_H
 );
+
+type INT_REGIE_CONTROL is record
+  A_en : std_logic;
+  D_en : std_logic;
+end record;
 
 -- Aggregate Types. Groups everything else together.
 
@@ -75,8 +87,9 @@ type controller_ext_datapath_controls is
 
 type controller_int_datapath_controls is
   record
-    -- Controller Selects
+    status_enables : STATUS_ENABLERS;
     bus_select : SELECTION_BUS_INTERNAL;
+    regie_ctrl : INT_REGIE_CONTROL;
   end record;
 
 

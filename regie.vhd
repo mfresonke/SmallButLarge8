@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity regie is
   generic (
-    WIDTH  :     positive := 16);
+    WIDTH  :     positive := 8);
   port (
     clk    : in  std_logic;
     rst    : in  std_logic;

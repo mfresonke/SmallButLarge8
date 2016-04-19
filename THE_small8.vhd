@@ -45,7 +45,7 @@ begin
     clk => clk,
     rst => rst,
     ctrl_int_dp => ctrl_int_dp,
-    raw_bus_out => dp_bus_regies.int_raw_out,
+    bus_out => dp_bus_regies.int_raw_out,
     in_bus_ext => dp_bus_regies.ext_out,
     address_out => address_bus
   );
@@ -70,6 +70,9 @@ begin
   -- Registers that Buffer Output from Each Bus
 
   EXT_DP_REGIE : entity work.regie
+  generic map (
+    WIDTH => WIDTH
+  ),
   port map (
     clk => clk,
     rst => rst,
